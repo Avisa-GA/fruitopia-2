@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "./Fruits.css"
+import FruitForm from './FruitForm/FruitForm';
 function Fruits() {
 
     const [fruits, setFruits] = useState([
@@ -36,6 +37,17 @@ function Fruits() {
         setCollectedFruits(collectedFruits.filter(f => f.id !== fruit.id))
     }
 
+    const addFruit = (name, emoji) => {
+        const newFruit = {
+            id: fruits.length + 1,
+            name,
+            emoji,
+            color: "gray",
+            inStock: true
+        }
+        setFruits([...fruits, newFruit])
+    }
+
     return (
         <>
             <ul>
@@ -47,7 +59,8 @@ function Fruits() {
                 ))
                 }
             </ul>
-
+            {/* add Form Fuit */}
+            <FruitForm addFruit={addFruit} />
             <div>
                 <h1>Fruit Inventory</h1>
                 <div>
