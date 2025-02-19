@@ -1,39 +1,45 @@
 import React, { useState } from 'react'
 import { show } from '../../../services/fruitService';
-
+import FruitDetail from './FruitDetail/FruitDetail';
 function FruitSearch() {
-    const [fruit, setFruit] = useState('')
-    const [fruitData, setFruitData] = useState('')
+    const [fruit, setFruit] = useState(''); // This holds the input value
+    const [fruitData, setFruitData] = useState(''); // This holds the fetched data
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!fruit.trim()) return;
+        if (!fruit.trim()) return; // Prevent empty submissions
+
         try {
             const data = await show(fruit);
-            setFruitData(data)
-        } catch (error) {
-            console.error("Failed to fetch Fruit data: ", error)
+            setFruitData(data); // Store the fetched data in fruitData
+        } catch (err) {
+            console.error("Failed to fetch fruit data", err);
         }
-        setFruit('')
+
+        setFruit(''); // Clear the input field
     }
 
-    console.log(fruitData, "data from search")
+    console.log(fruitData, "data from search");
+
     return (
-        <div>
+        <>
             <section>
                 <h2>Search</h2>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="fruit">Enter a fruit: </label>
+                    <label htmlFor="fruit">Enter a fruit:</label>
                     <input
-                        type="text"
-                        name="fruit"
-                        value={fruit}
                         id="fruit"
-                        onChange={(e) => setFruit(e.target.value)} />
-                    <button type='submit'>Search</button>
+                        type="text"
+                        value={fruit}
+                        onChange={(e) => setFruit(e.target.value)}
+                    />
+                    <button type="submit">Search</button>
                 </form>
             </section>
-        </div>
+            <FruitDetail fruit={fruitData} />
+        </>
     )
 }
+
 
 export default FruitSearch
