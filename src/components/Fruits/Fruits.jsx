@@ -3,10 +3,13 @@ import "./Fruits.css"
 import FruitForm from './FruitForm/FruitForm';
 import FruitList from './FruitList/FruitList';
 import { getAllFruits } from '../../services/fruitService';
-import FruitSearch from './FruitsSearch/FruitSearch';
+import { useLocation } from 'react-router-dom';
+import FruitDetail from './FruitSearch/FruitDetail/FruitDetail';
 function Fruits() {
 
     const [fruits, setFruits] = useState([])
+    const { state } = useLocation();
+    const fruitData = state?.fruitData;
     const [collectedFruits, setCollectedFruits] = useState([]);
     useEffect(() => {
         const fetchFruits = async () => {
@@ -42,7 +45,16 @@ function Fruits() {
 
     return (
         <>
-            <FruitSearch />
+            {
+                fruitData && (
+                    <>
+                        <h2>Searched Fruit Detail</h2>
+                        <FruitDetail fruit={fruitData} />
+                    </>
+                )
+            }
+
+            <h1>Fruit List</h1>
             <FruitList fruits={fruits} />
             {/* add Form Fuit */}
             <FruitForm addFruit={addFruit} />
